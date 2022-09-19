@@ -63,7 +63,7 @@
    - `cp4baTemplateToUse` - Name of CP4BA deployment template that will be used e.g. `ibm_cp4a_cr_template.002.ent.FoundationContent.yaml`
    - `db2OnOcpProjectName` - Namespace where DB2 should be installed e.g. `ibm-db2`
    - `db2AdminUserPassword` - Password that will be assigned to the db2 instance user e.g. `passw0rd`
-   - `db2StandardLicenseKey` - provide the encoded licence key from previous step if needed, otherwise leave empty, means remove the default value `REQUIRED`
+   - `db2StandardLicenseKey` - provide the encoded license key from previous step if needed, otherwise leave empty, means remove the default value `REQUIRED`
    - `db2Cpu` - Number of CPUs for DB2 pod according to the selected CP4BA template
    - `db2Memory` - Amount of memory for DB2 pod according to the selected CP4BA template
    
