@@ -6,6 +6,7 @@ This project provides you the following CP4BA templates to select from:
 
 - **[Foundation only](#foundation-only)** (ibm_cp4a_cr_template.001.ent.Foundation.yaml)
 - **[Foundation, Content](#foundation-content)** (ibm_cp4a_cr_template.002.ent.FoundationContent.yaml)
+- **[Foundation, BAW Authoring](#foundation-bawauth)** (ibm_cp4a_cr_template.002.ent.FoundationContent.yaml)
 
 All these templates are tested on IBM Cloud / ROKS. In addition, you can create your own template if needed.
 
@@ -108,6 +109,41 @@ All these templates are tested on IBM Cloud / ROKS. In addition, you can create 
   - CSS (Content Search Services)
   - CMIS (Content Management Interoperability Services)
 
+**VM for LDAP needed:**
+- LDAP needed: Yes
+
+**DB2 needed / license / resources:**
+- DB2 needed: Yes
+- DB2 Standard license: not needed (DB2 Community Edition license is sufficient)
+- CPU for DB2: 4
+- RAM for DB2: 16Gi
+
+**OCP Cluster sizing:**
+- Minimum configuration (no High-Availabilty, select a replica size of 1)
+  - Three worker nodes with 16 CPUs and 32Gi RAM
+- Configuration when you want to use a higher replica size, e.g., 2
+  - Add one additional worker node with 16 CPUs and 32Gi RAM
+
+**[What to do next](#what-to-do-next)**
+
+## Foundation, BAW Authoring
+
+**Name:**
+- ibm_cp4a_cr_template.010.ent.FoundationContentBawauth.yaml
+
+**CP4BA deployment patterns included:**
+- foundation
+  - IAF (IBM Automation Foundation) components needed
+  - RR (Resource Registry)
+  - BAN (Business Automation Navigator)
+- content
+  - CPE (Content Platform Engine)
+  - GraphQL (Content Services GraphQL)
+  - CSS (Content Search Services)
+  - CMIS (Content Management Interoperability Services)
+- application
+- workflow
+  - BAW Authoring
 **VM for LDAP needed:**
 - LDAP needed: Yes
 
