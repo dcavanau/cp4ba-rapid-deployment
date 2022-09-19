@@ -2,9 +2,9 @@
 
 ![Overview](images/overview05.jpg "Overview")
 
-1. Onto your bastion host, download the Case package: **https://github.com/IBM/cloud-pak/raw/master/repo/case/ibm-cp-automation-3.2.5.tgz** into a temporary directory, e.g., `/temp`, and extract `ibm-cp-automation-3.2.5.tar` into the same temporary directory, e.g., `/temp`
+1. Onto your bastion host, download the Case package: **https://github.com/IBM/cloud-pak/raw/master/repo/case/ibm-cp-automation-4.0.2.tgz** into a temporary directory, e.g., `/temp`, and extract `ibm-cp-automation-4.0.2.tar` into the same temporary directory, e.g., `/temp`
 
-2. Extract the content of `ibm-cp-automation-3.2.5.tar` into the same temporary directory, e.g., `/temp`
+2. Extract the content of `ibm-cp-automation-4.0.2.tar` into the same temporary directory, e.g., `/temp`
 
 3. Extract the content of archive `/temp/ibm-cp-automation/inventory/cp4aOperatorSdk/files/deploy/crs/cert-k8s-22.0.1.tar` into directory `/cp4ba`
 
@@ -21,6 +21,112 @@
    cp: overwrite ‘cp4ba/cert-kubernetes/descriptors/cp4a-bronze-storage-class.yaml’? y
    cp: overwrite ‘cp4ba/cert-kubernetes/descriptors/cp4a-gold-storage-class.yaml’? y
    cp: overwrite ‘cp4ba/cert-kubernetes/descriptors/cp4a-silver-storage-class.yaml’? y
+   ```
+
+5. Apply the catalog sources to pin to the specified versions for IBM Automation Foundation, IBM Foundational Services with Cloud Pak for Business Automation. You can apply the catalog sources below from a command line by creating a YAML file (for example, cp4ba_catalog_sources.yaml) with the catalog sources below and performing `oc apply -f cp4ba_catalog_sources.yaml`, or you can apply the catalog sources using the OCP console
+ 
+   ***Note:*** you can apply only one catalog source at a time using the OCP console.
+
+   ***Note:*** The DB2, IBM Business Team Service, and Postgres catalog sources are dependent components of Cloud Pak for Business Automation.
+
+   ```yaml
+   # CP4BA 22.0.1 IF002 catalog
+   apiVersion: operators.coreos.com/v1alpha1
+   kind: CatalogSource
+   metadata:
+     name: ibm-cp4a-operator-catalog
+     namespace: openshift-marketplace
+   spec:
+     displayName: ibm-cp4a-operator
+     publisher: IBM
+     sourceType: grpc
+     image: icr.io/cpopen/ibm-cp-automation-catalog@sha256:986420416b2426c008aeaf42a6506c7a41f6492476b31d9b890aaa96698b7e45
+     updateStrategy:
+       registryPoll:
+         interval: 45m
+   ---
+   # IBM Automation Foundation Base 1.3.9
+   apiVersion: operators.coreos.com/v1alpha1
+   kind: CatalogSource
+   metadata:
+     name: ibm-cp-automation-foundation-catalog
+     namespace: openshift-marketplace
+   spec:
+      displayName: IBM Automation Foundation Operators
+     publisher: IBM
+     sourceType: grpc
+     image: icr.io/cpopen/ibm-cp-automation-foundation-catalog@sha256:bb480738a3cf687917b2735b43e5729a276b02f6960d973064093069bfd6114e
+     updateStrategy:
+       registryPoll:
+         interval: 45m
+   ---
+   # IBM Automation Foundation Core 1.3.9
+   apiVersion: operators.coreos.com/v1alpha1
+   kind: CatalogSource
+   metadata:
+     name: ibm-automation-foundation-core-catalog
+     namespace: openshift-marketplace
+   spec:
+     displayName: IBM Automation Foundation Core Operators
+     publisher: IBM
+     sourceType: grpc
+     image: icr.io/cpopen/ibm-automation-foundation-core-catalog@sha256:a1e8d449e5249530c6ae71f9fb5857ac852cf090343636b314873bbf93ba7d3f
+     updateStrategy:
+       registryPoll:
+         interval: 45m
+   ---
+   # IBM Cloud Foundational Services 3.20.1
+   apiVersion: operators.coreos.com/v1alpha1
+   kind: CatalogSource
+   metadata:
+     annotations:
+       bedrock_catalogsource_priority: '1'
+     name: opencloud-operators
+     namespace: openshift-marketplace
+   spec:
+     displayName: IBMCS Operators
+     publisher: IBM
+     sourceType: grpc
+     image: icr.io/cpopen/ibm-common-service-catalog@sha256:9a42de26366cf209a9dcc3b3dddc405b3a6dc079d8d81ae19c4c228f9347e530
+     updateStrategy:
+       registryPoll:
+         interval: 45m
+     priority: 100
+   ---
+   # IBM Business Teams Service version 3.20.0
+   apiVersion: operators.coreos.com/v1alpha1
+   kind: CatalogSource
+   metadata:
+     annotations:
+       bedrock_catalogsource_priority: '1'
+     name: bts-operator
+     namespace: openshift-marketplace
+   spec:
+     displayName: BTS Operator
+     publisher: IBM
+     sourceType: grpc
+     image: icr.io/cpopen/ibm-bts-operator-catalog@sha256:6fb709566a67d1a4b29d2764c91caee742768607f69f1a286d8cbe9a9effb09c
+     updateStrategy:
+       registryPoll:
+         interval: 45m
+   ---
+   # Cloud Native PostgresSQL 4.5.0
+   apiVersion: operators.coreos.com/v1alpha1
+   kind: CatalogSource
+   metadata:
+     annotations:
+       bedrock_catalogsource_priority: '1'
+     name: cloud-native-postgresql-catalog
+     namespace: openshift-marketplace
+   spec:
+     displayName: Cloud Native Postgresql Catalog
+     publisher: IBM
+     sourceType: grpc
+     image: icr.io/cpopen/ibm-cpd-cloud-native-postgresql-operator-catalog@sha256:4b09002a8a9f0f6832c3f21cf0e6a129274279e4f72907b5faec58b4d3100411
+     updateStrategy:
+       registryPoll:
+         interval: 45m
+     priority: 100
    ```
 
 5. From cert-kubernetes, execute script **cp4a-clusteradmin-setup.sh**

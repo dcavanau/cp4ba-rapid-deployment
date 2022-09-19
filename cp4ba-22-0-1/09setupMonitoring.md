@@ -39,7 +39,7 @@ Once configuration parameters have been specified, we can move on to the next st
 
 To configure the Monitoring Stack on your OpenShift cluster:
 
-1. Log in to the OpenShift cluster using the `oc loggin` command.
+1. Log in to the OpenShift cluster using the `oc login` command.
 2. Run the `configure-monitoring.sh` command found under the `monitoring` directory and wait for completion.
 3. If the following banner is displayed **all** Monitoring Stack components have been deployed successfully.
 
