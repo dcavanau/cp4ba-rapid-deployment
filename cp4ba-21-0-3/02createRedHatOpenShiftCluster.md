@@ -58,9 +58,9 @@
 
 14. Review the Summary on the right hand side and click **Create**
 
-15. Monitor the creation of your new ROKS cluster, it usually will take up to one hour to fully provision it (if you selected Bare metal, it also can take longer, dependant on the HW availability in the selected data center)
+15. Monitor the creation of your new ROKS cluster, it usually will take up to one hour to fully provision it (if you selected Bare metal, it also can take longer, dependent on the HW availability in the selected data center)
 
-As you by default will be running DB2 containerized on the OpenShift cluster, you might need - dependant on the previously selected CP4BA template - one worker node with more memory (see **[Step 0: Select the CP4BA template for deployment](00selectTemplate.md)**) - if this is the case for your selected CP4BA template, complete the remaining sub-steps, otherwise you can proceed with **[Step 3: Create new VM for LDAP, install IBM SDS & import ldif files with users and groups](03createVMForLDAP.md)**
+As you by default will be running DB2 containerized on the OpenShift cluster, you might need - dependent on the previously selected CP4BA template - one worker node with more memory (see **[Step 0: Select the CP4BA template for deployment](00selectTemplate.md)**) - if this is the case for your selected CP4BA template, complete the remaining sub-steps, otherwise you can proceed with **[Step 3: Create new VM for LDAP, install IBM SDS & import ldif files with users and groups](03createVMForLDAP.md)**
     
 16. Once the first worker nodes are up and running, navigate to your cluster, in the Navigation Menu select **OpenShift -> Clusters**
     
