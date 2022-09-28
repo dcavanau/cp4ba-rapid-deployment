@@ -2,9 +2,9 @@
 
 ![Overview](images/overview05.jpg "Overview")
 
-1. Onto your bastion host, download the Case package: **https://github.com/IBM/cloud-pak/raw/master/repo/case/ibm-cp-automation-4.0.2.tgz** into a temporary directory, e.g., `/temp`, and extract `ibm-cp-automation-4.0.2.tar` into the same temporary directory, e.g., `/temp`
+1. Onto your bastion host, download the Case package: **https://github.com/IBM/cloud-pak/raw/master/repo/case/ibm-cp-automation-4.0.1.tgz** into a temporary directory, e.g., `/temp`, and extract `ibm-cp-automation-4.0.1.tar` into the same temporary directory, e.g., `/temp`
 
-2. Extract the content of `ibm-cp-automation-4.0.2.tar` into the same temporary directory, e.g., `/temp`
+2. Extract the content of `ibm-cp-automation-4.0.1.tar` into the same temporary directory, e.g., `/temp`
 
 3. Extract the content of archive `/temp/ibm-cp-automation/inventory/cp4aOperatorSdk/files/deploy/crs/cert-k8s-22.0.1.tar` into directory `/cp4ba`
 
