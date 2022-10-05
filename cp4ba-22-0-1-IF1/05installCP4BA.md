@@ -2,20 +2,20 @@
 
 ![Overview](images/overview05.jpg "Overview")
 
-1. Onto your bastion host, download the Case package: **https://github.com/IBM/cloud-pak/raw/master/repo/case/ibm-cp-automation-4.0.1.tgz** into a temporary directory, e.g., `/temp`, and extract `ibm-cp-automation-4.0.1.tar` into the same temporary directory, e.g., `/temp`
+1. Onto your bastion host, download the Case package: **<https://github.com/IBM/cloud-pak/raw/master/repo/case/ibm-cp-automation-4.0.1.tgz>** into a temporary directory, e.g., `/temp`, and extract `ibm-cp-automation-4.0.1.tar` into the same temporary directory, e.g., `/temp`
 
 2. Extract the content of `ibm-cp-automation-4.0.1.tar` into the same temporary directory, e.g., `/temp`
 
 3. Extract the content of archive `/temp/ibm-cp-automation/inventory/cp4aOperatorSdk/files/deploy/crs/cert-k8s-22.0.1.tar` into directory `/cp4ba`
 
 4. If you are deploying on a ROKS cluster, copy the modified storage class definitions so that CP4BA Operator is using them (in this version of the storage classes the reclaimPolicy got changed to Delete and the name got adapted, because Delete is usually the better reclaimPolicy for ROKS and Demo environments)
-   
+
    ```
    cp /cp4ba/cp4ba-rapid-deployment/cp4ba-22-0-1/mycluster/deployment-db2-cp4ba/cp4a-*-storage-class.yaml /cp4ba/cert-kubernetes/descriptors/
    ```
-   
+
    For example:
-   
+
    ```
    cp /cp4ba/cp4ba-rapid-deployment/cp4ba-22-0-1/mycluster/deployment-db2-cp4ba/cp4a-*-storage-class.yaml /cp4ba/cert-kubernetes/descriptors/
    cp: overwrite ‘cp4ba/cert-kubernetes/descriptors/cp4a-bronze-storage-class.yaml’? y
@@ -24,123 +24,123 @@
    ```
 
 5. Apply the catalog sources to pin to the specified versions for IBM Automation Foundation, IBM Foundational Services with Cloud Pak for Business Automation. You can apply the catalog sources below from a command line by creating a YAML file (for example, cp4ba_catalog_sources.yaml) with the catalog sources below and performing `oc apply -f cp4ba_catalog_sources.yaml`, or you can apply the catalog sources using the OCP console
- 
-   ***Note:*** you can apply only one catalog source at a time using the OCP console.
 
-   ***Note:*** The DB2, IBM Business Team Service, and Postgres catalog sources are dependent components of Cloud Pak for Business Automation.
+    ***Note:*** you can apply only one catalog source at a time using the OCP console.
 
-   ```yaml
-   # CP4BA 22.0.1 IF001 catalog
-   apiVersion: operators.coreos.com/v1alpha1
-   kind: CatalogSource
-   metadata:
-     name: ibm-cp4a-operator-catalog
-     namespace: openshift-marketplace
-   spec:
-     displayName: ibm-cp4a-operator
-     publisher: IBM
-     sourceType: grpc
-     image: icr.io/cpopen/ibm-cp-automation-catalog@sha256:986420416b2426c008aeaf42a6506c7a41f6492476b31d9b890aaa96698b7e45
-     updateStrategy:
-       registryPoll:
-         interval: 45m
-   ---
-   # IBM Automation Foundation Base 1.3.9
-   apiVersion: operators.coreos.com/v1alpha1
-   kind: CatalogSource
-   metadata:
-     name: ibm-cp-automation-foundation-catalog
-     namespace: openshift-marketplace
-   spec:
+    ***Note:*** The DB2, IBM Business Team Service, and Postgres catalog sources are dependent components of Cloud Pak for Business Automation.
+
+    ```yaml
+    # CP4BA 22.0.1 IF001 catalog
+    apiVersion: operators.coreos.com/v1alpha1
+    kind: CatalogSource
+    metadata:
+  name: ibm-cp4a-operator-catalog
+  namespace: openshift-marketplace
+    spec:
+      displayName: ibm-cp4a-operator
+      publisher: IBM
+      sourceType: grpc
+      image: icr.io/cpopen/ibm-cp-automation-catalog@sha256:e595868ec426bfba2409878b86fa3398a0680b5c725cff212469068ce8824202
+      updateStrategy:
+        registryPoll:
+          interval: 45m
+    ---
+    # IBM Automation Foundation Base 1.3.7
+    apiVersion: operators.coreos.com/v1alpha1
+    kind: CatalogSource
+    metadata:
+      name: ibm-cp-automation-foundation-catalog
+      namespace: openshift-marketplace
+    spec:
       displayName: IBM Automation Foundation Operators
-     publisher: IBM
-     sourceType: grpc
-     image: icr.io/cpopen/ibm-cp-automation-foundation-catalog@sha256:bb480738a3cf687917b2735b43e5729a276b02f6960d973064093069bfd6114e
-     updateStrategy:
-       registryPoll:
-         interval: 45m
-   ---
-   # IBM Automation Foundation Core 1.3.9
-   apiVersion: operators.coreos.com/v1alpha1
-   kind: CatalogSource
-   metadata:
-     name: ibm-automation-foundation-core-catalog
-     namespace: openshift-marketplace
-   spec:
-     displayName: IBM Automation Foundation Core Operators
-     publisher: IBM
-     sourceType: grpc
-     image: icr.io/cpopen/ibm-automation-foundation-core-catalog@sha256:a1e8d449e5249530c6ae71f9fb5857ac852cf090343636b314873bbf93ba7d3f
-     updateStrategy:
-       registryPoll:
-         interval: 45m
-   ---
-   # IBM Cloud Foundational Services 3.20.1
-   apiVersion: operators.coreos.com/v1alpha1
-   kind: CatalogSource
-   metadata:
-     annotations:
-       bedrock_catalogsource_priority: '1'
-     name: opencloud-operators
-     namespace: openshift-marketplace
-   spec:
-     displayName: IBMCS Operators
-     publisher: IBM
-     sourceType: grpc
-     image: icr.io/cpopen/ibm-common-service-catalog@sha256:9a42de26366cf209a9dcc3b3dddc405b3a6dc079d8d81ae19c4c228f9347e530
-     updateStrategy:
-       registryPoll:
-         interval: 45m
-     priority: 100
-   ---
-   # IBM Business Teams Service version 3.20.0
-   apiVersion: operators.coreos.com/v1alpha1
-   kind: CatalogSource
-   metadata:
-     annotations:
-       bedrock_catalogsource_priority: '1'
-     name: bts-operator
-     namespace: openshift-marketplace
-   spec:
-     displayName: BTS Operator
-     publisher: IBM
-     sourceType: grpc
-     image: icr.io/cpopen/ibm-bts-operator-catalog@sha256:6fb709566a67d1a4b29d2764c91caee742768607f69f1a286d8cbe9a9effb09c
-     updateStrategy:
-       registryPoll:
-         interval: 45m
-   ---
-   # Cloud Native PostgresSQL 4.5.0
-   apiVersion: operators.coreos.com/v1alpha1
-   kind: CatalogSource
-   metadata:
-     annotations:
-       bedrock_catalogsource_priority: '1'
-     name: cloud-native-postgresql-catalog
-     namespace: openshift-marketplace
-   spec:
-     displayName: Cloud Native Postgresql Catalog
-     publisher: IBM
-     sourceType: grpc
-     image: icr.io/cpopen/ibm-cpd-cloud-native-postgresql-operator-catalog@sha256:4b09002a8a9f0f6832c3f21cf0e6a129274279e4f72907b5faec58b4d3100411
-     updateStrategy:
-       registryPoll:
-         interval: 45m
-     priority: 100
-   ```
+      publisher: IBM
+      sourceType: grpc
+      image: icr.io/cpopen/ibm-cp-automation-foundation-catalog@sha256:267bbc17bad1966be259bb9a6951c520c6fb824bfa42bbec22570ba49883d4ae
+  updateStrategy:
+    registryPoll:
+      interval: 45m
+    ---
+    # IBM Automation Foundation Core 1.3.7
+    apiVersion: operators.coreos.com/v1alpha1
+    kind: CatalogSource
+    metadata:
+      name: ibm-automation-foundation-core-catalog
+      namespace: openshift-marketplace
+    spec:
+      displayName: IBM Automation Foundation Core Operators
+      publisher: IBM
+      sourceType: grpc
+      image: icr.io/cpopen/ibm-automation-foundation-core-catalog@sha256:5502c003afe7a0590ce123c3bbbd76e46374af641b3a210e3c25cfe2381e4647
+      updateStrategy:
+        registryPoll:
+          interval: 45m
+    ---
+    # IBM Cloud Foundational Services 3.19.0
+    apiVersion: operators.coreos.com/v1alpha1
+    kind: CatalogSource
+    metadata:
+      annotations:
+        bedrock_catalogsource_priority: '1'
+      name: opencloud-operators
+      namespace: openshift-marketplace
+    spec:
+      displayName: IBMCS Operators
+      publisher: IBM
+      sourceType: grpc
+      image: icr.io/cpopen/ibm-common-service-catalog@sha256:87904dee339ee4bbcbdc07949abc8df82bf6d85706f90795e6dae5e45f876b19
+      updateStrategy:
+        registryPoll:
+          interval: 45m
+      priority: 100
+    ---
+    # IBM Business Teams Service version 3.19.0
+    apiVersion: operators.coreos.com/v1alpha1
+    kind: CatalogSource
+    metadata:
+      annotations:
+        bedrock_catalogsource_priority: '1'
+      name: bts-operator
+      namespace: openshift-marketplace
+    spec:
+      displayName: BTS Operator
+      publisher: IBM
+      sourceType: grpc
+      image: icr.io/cpopen/ibm-bts-operator-catalog@sha256:68596113ad291b36b78d53207f73b53691f9f0154a21f38c717c08a0100deb9f
+      updateStrategy:
+        registryPoll:
+          interval: 45m
+    ---
+    # Cloud Native PostgresSQL 4.0.8
+    apiVersion: operators.coreos.com/v1alpha1
+    kind: CatalogSource
+    metadata:
+      annotations:
+        bedrock_catalogsource_priority: '1'
+      name: cloud-native-postgresql-catalog
+      namespace: openshift-marketplace
+    spec:
+      displayName: Cloud Native Postgresql Catalog
+      publisher: IBM
+      sourceType: grpc
+      image: icr.io/cpopen/ibm-cpd-cloud-native-postgresql-operator-catalog@sha256:f3feb39b0dfb444a46d99a9cd160c616f8548d84d452cbc89e4985f0a2574486
+      updateStrategy:
+        registryPoll:
+          interval: 45m
+      priority: 100
+    ```
 
 5. From cert-kubernetes, execute script **cp4a-clusteradmin-setup.sh**
-   
+
    ```
    cd /cp4ba/cert-kubernetes/scripts/
    ```
-   
+
    ```
    ./cp4a-clusteradmin-setup.sh
    ```
-   
+
    Sample script output
-   
+
    ```
    creating temp folder
    
@@ -261,17 +261,17 @@
    cp4a-file-delete-silver-gid           ibm.io/ibmc-file    Delete          Immediate           false                  2m
    <your-list-of-storage classes>
    ```
-   
+
    The progress of the script can be monitored on a separate terminal by checking the output of the command
-   
+
    ```
    watch -n 10 oc get pvc,csv,pod
    ```
-   
+
    First you should see that the two persistent volume claims are get bound. Then the deployment of the 9 operators can be seen, and last but not least, the 9 pods implementing those operators should be getting deployed and running.
 
 6. Wait untill all Operators are installed, this might take a while (you need to see e.g. 9 pods in \<your-ibm-cp4ba-project\>, 12 pods in ibm-common-services project, all Running and Ready 1/1)
-   
+
    **Note:** The number of pods can vary based on when you install and what version of the Operators is installed. Important is that all are Running and Ready.
 
 7. In folder **deployment-db2-cp4ba** update the properties file for CP4BA **05-parametersForCp4ba.sh**, provide the following properties:
@@ -281,21 +281,21 @@
    - `cp4baAdminPassword`, e.g., `passw0rd` - use the password for user cp4badmin in the generated .ldif file when setting up LDAP
    - `ldapAdminPassword`, e.g., `passw0rd` - use the password that you specified for cn=root when setting up LDAP
    - `ldapServer`, e.g., `123.456.679.012` - the hostname or IP of the previously installed LDAP server
-   
-   **Note:** Also review the other properties, in case changes are needed, e.g., in case you are not deploying on ROKS, also provide correct Storage Class values for properties `cp4baScSlow`, `cp4baScMedium` and `cp4baScFast`. These Storage Classes have to provide RWX storage, for more details about storage for CP4BA, see also **https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/22.0.1?topic=ppd-storage-considerations**.
+
+   **Note:** Also review the other properties, in case changes are needed, e.g., in case you are not deploying on ROKS, also provide correct Storage Class values for properties `cp4baScSlow`, `cp4baScMedium` and `cp4baScFast`. These Storage Classes have to provide RWX storage, for more details about storage for CP4BA, see also **<https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/22.0.1?topic=ppd-storage-considerations>**.
 
 8. Run script **07-createCp4baDeployment.sh**
-   
+
    ```
    cd /cp4ba/cp4ba-rapid-deployment/cp4ba-22-0-1/mycluster/deployment-db2-cp4ba
    ```
-   
+
    ```
    ./07-createCp4baDeployment.sh
    ```
-   
+
    Sample script output
-   
+
    ```
    Found 01-parametersForDb2OnOCP.sh.  Reading in variables from that script.
      Reading 01-parametersForDb2OnOCP.sh ...
@@ -382,22 +382,22 @@
    ```
 
 9. The deployment of CP4BA might now take several hours dependant on the CP4BA template that you selected. Monitor the logs of the Operator to spot any potential issues.
-   
+
    **Note:** In case you have not used a DB2 Standard Edition license key or enough memory for the DB2, closely monitor the operator logs. This configuration might result in issues when deploying CP4BA, as it might happen that the CPE Object Stores can't be automatically initialized while the deployment as the DB connections might not be able to be created. In that case, scale down the operator to zero after the Object Store initialization failed and create the missing DB connections manually. Then, scale up the operator to one and it will usually initialze the Object Stores.
 
 10. The CP4BA deployment is complete when you see:
     - for template **Client Onboarding Demo with ADP**: in your **CP4BA project** about 84 Running and Ready pods, and about 39 Completed pods, but no Pending / CrashLoopBackOff pods, plus in project **ibm-common-services** about 37 Running and Ready pods, and about 5 Completed pods, but no Pending / CrashLoopBackOff pods
     - for template **Foundation, Content**: in your **CP4BA project** about 30 Running and Ready pods, and about 10 Completed pods, but no Pending / CrashLoopBackOff pods, plus in project **ibm-common-services** about 32 Running and Ready pods, and about 5 Completed pods, but no Pending / CrashLoopBackOff pods
     - for template **Foundation**: in your **CP4BA project** about 26 Running and Ready pods, and about 10 Completed pods, but no Pending / CrashLoopBackOff pods, plus in project **ibm-common-services** about 32 Running and Ready pods, and about 5 Completed pods, but no Pending / CrashLoopBackOff pods
-    
+
     **Note:** It might be that some pods are in Failed or Error state, for those make sure there is another instance of that pod in Completed state. If this is the case, you can delete the Failed or Error pods. If there are pods in Failed or Error state where there is no other instance of that pod in Completed state, the deployment is not healthy.
-    
+
     **Note:** It might be that going forward the number of pods mentioned here does change, as with every new installation latest versions of ibm-common-services and IBM Automation Foundation are installed and those latest versions might come with a different number of Running and / or Completed pods. The most important point here is that you don't see pods in any other state (Pending / CrashLoopBackOff / Failed / Error / ...).
-    
+
     For example, when you selected the Template **Foundation, Content**, you shoud see the following:
-    
+
     ![CP4BA deployment](images/cp4baDeployment01.jpg "CP4BA deployment")
-    
+
     ```
     oc get pods
     NAME                                                              READY   STATUS      RESTARTS   AGE
@@ -444,18 +444,19 @@
     ```
 
 11. Now that the deployment is complete, you need to apply some post-deployment steps. First post-deployment step is to enable you to log in with the users from LDAP. For this, first get the user ID and password of the zen admin user by running those two commands:
-    
+
     ```
     oc -n ibm-cp4ba get secret ibm-iam-bindinfo-platform-auth-idp-credentials -o jsonpath='{.data.admin_username}' | base64 -d && echo
     ```
+
     ```
     oc -n ibm-cp4ba get secret ibm-iam-bindinfo-platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 -d && echo
     ```
-    
+
     **Note:** By default the user id is **admin**
 
 12. Open the **cpd** route
-    
+
     ![Open the cpd route](images/cp4baDeployment02.jpg "Open the cpd route")
 
 13. Accept the self-signed certificates (two times)
@@ -503,7 +504,7 @@
 33. On the right-hand side click **Add Groups**
 
 34. Search for **cp4bausers**, select that LDAP group and click **Add Selected** to add it to **tw_authors**
-    
+
     **Note:** It might take a few seconds until the group appears. Wait till it appears automatically.
 
 35. Second, similarly as in the previous three steps, add LDAP group **cp4bausers** to **tw_admins** - once complete you can close the Browser tab with Process Admin Console
@@ -533,7 +534,6 @@
 47. Switch to the **Security** tab, add group **cp4bausers**, click **Finish** and click **Close**- once complete you can close the Browser tab with Case administration UI
 
 48. Optional: Set the subscription of all installed Operators to **Manual**
-    
 
 ## What to do next
 
@@ -545,6 +545,6 @@
 - Optionally, you can complete **[Step 11: Optional: Scale up the deployment](11scaleUp.md)**
 - **[Here](Readme.md)** you can get back to the overview page
 
-Issues or questions? IBMers can use this IBM internal Slack channel: **#dba-swat-asset-qna** (**https://ibm-cloud.slack.com/archives/C026TD1SGCA**)
+Issues or questions? IBMers can use this IBM internal Slack channel: **#dba-swat-asset-qna** (**<https://ibm-cloud.slack.com/archives/C026TD1SGCA>**)
 
 Everyone else can open a new issue in this github.

@@ -23,7 +23,7 @@
    ```
    
    ```
-   cd /cp4ba/cp4ba-rapid-deployment/cp4ba-22-0-1
+   cd /cp4ba/cp4ba-rapid-deployment/cp4ba-22-0-1-IF1
    ```
    
    ```
@@ -38,7 +38,7 @@
    cd mycluster/deployment-db2-cp4ba
    ```
    
-3. Optional: Dependant on the CP4BA template selected in **[Step 0: Select the CP4BA template for deployment](00selectTemplate.md)**, get a DB2 Standard Edition license key to enable containerized DB2 to use more CPUs and RAM compared to the Community Edition
+3. Optional: Dependent on the CP4BA template selected in **[Step 0: Select the CP4BA template for deployment](00selectTemplate.md)**, get a DB2 Standard Edition license key to enable containerized DB2 to use more CPUs and RAM compared to the Community Edition
    
    **Note:** In case you don't have access to a DB2 Standard Edition license key, you can install DB2 with the Community Edition license that is included by default. But, this might result in issues when deploying some of the provided CP4BA templates later on, as it might happen that the CPE Object Stores can't be automatically initialized while the deployment as the DB connections might not be able to be created. In that case, scale down the operator to zero after the Object Store initialization failed and create the missing DB connections manually. Then, scale up the operator to one and it will successfully initialize the Object Stores.
    
