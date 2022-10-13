@@ -154,6 +154,17 @@ spec:
         database_port: "db2PortNumber"
 
   ##################################################################
+  ########        Shared Monitoring configuration           ########
+  ##################################################################
+  monitoring_configuration:
+    collectd_disable_host_monitoring: false
+    collectd_interval: 10
+    collectd_plugin_write_prometheus_port: 9103
+    mon_enable_plugin_mbean: true
+    mon_enable_plugin_pch: true
+    mon_metrics_writer_option: 4
+
+  ##################################################################
   ########   Resource Registry configuration                ########
   ##################################################################
   resource_registry_configuration:
@@ -238,8 +249,8 @@ spec:
       icn_table_space: db2IcndbName
       allow_remote_plugins_via_http: false
 
-    monitor_enabled: false
-    logging_enabled: false
+    monitor_enabled: true
+    logging_enabled: true
 
     datavolume:
       existing_pvc_for_icn_cfgstore: "icn-cfgstore"
@@ -307,8 +318,8 @@ spec:
         license: accept
         disable_fips: false
 
-      monitor_enabled: false
-      logging_enabled: false
+      monitor_enabled: true
+      logging_enabled: true
 
       collectd_enable_plugin_write_graphite: false
 
@@ -357,8 +368,8 @@ spec:
         jvm_max_heap_percentage: 50
         license: accept
 
-      monitor_enabled: false
-      logging_enabled: false
+      monitor_enabled: true
+      logging_enabled: true
       collectd_enable_plugin_write_graphite: false
 
       datavolume:
@@ -432,8 +443,8 @@ spec:
 
         license: accept
 
-      monitor_enabled: false
-      logging_enabled: false
+      monitor_enabled: true
+      logging_enabled: true
       collectd_enable_plugin_write_graphite: false
 
       datavolume:
@@ -489,8 +500,8 @@ spec:
         enable_graph_iql: true
         cpe_uri:
 
-      monitor_enabled: false
-      logging_enabled: false
+      monitor_enabled: true
+      logging_enabled: true
       collectd_enable_plugin_write_graphite: false
 
       datavolume:
@@ -967,7 +978,7 @@ spec:
     admin_user: "cp4baAdminName"
     admin_secret_name: "ibm-bawaut-admin-secret"
 
-    monitor_enabled: false
+    monitor_enabled: true
     external_connection_timeout: ""
     external_tls_secret: tlsSecretName
     external_tls_ca_secret:
@@ -1178,7 +1189,7 @@ spec:
     custom_libs_pvc: ""
     external_tls_secret: tlsSecretName
     external_tls_ca_secret:
-    monitor_enabled: false
+    monitor_enabled: true
 
     tls:
       tls_secret_name:
