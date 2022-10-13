@@ -58,14 +58,14 @@ db2Memory=16Gi
 # --- If changes are needed here, provide those BEFORE running script 02-createDb2OnOCP.sh ---
 
 # Version of DB2 operator to install. Change only when a new operator version should be used.
-db2OperatorVersion=db2u-operator.v1.1.9
+db2OperatorVersion=db2u-operator.v2.1.0
 
 # Channel version for Operator updates. Change only if a new DB2 operator version requires a new channel version.
-db2OperatorChannel=v1.1
+db2OperatorChannel=v2.1
 
 # DB2 instance version to be created. Change only when a new version of DB2 should be used.  
 # This version of DB2 must be supported by the Operator version installed as specified above.
-db2InstanceVersion=11.5.6.0
+db2InstanceVersion=11.5.7.0
 
 # Indicate if to install DB2 containerized on the OpenShift cluster (true/false)
 db2UseOnOcp=true
