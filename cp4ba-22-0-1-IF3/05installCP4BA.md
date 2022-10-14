@@ -126,7 +126,7 @@
     updateStrategy:
       registryPoll:
         interval: 45m
-    priority: 100   ```
+    priority: 100
   ```
   
 5. From cert-kubernetes, execute script **cp4a-clusteradmin-setup.sh**

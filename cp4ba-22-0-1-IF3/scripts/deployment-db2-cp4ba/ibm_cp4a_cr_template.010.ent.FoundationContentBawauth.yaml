@@ -57,21 +57,6 @@ spec:
     sc_cpe_limited_storage: false
     sc_run_as_user:
 
-    images:
-      keytool_job_container:
-        repository: cp.icr.io/cp/cp4a/ums/dba-keytool-jobcontainer
-        tag: 22.0.1-IF003
-      dbcompatibility_init_container:
-        repository: cp.icr.io/cp/cp4a/aae/dba-dbcompatibility-initcontainer
-        tag: 22.0.1-IF003
-      keytool_init_container:
-        repository: cp.icr.io/cp/cp4a/ums/dba-keytool-initcontainer
-        tag: 22.0.1-IF003
-      umsregistration_initjob:
-        repository: cp.icr.io/cp/cp4a/aae/dba-umsregistration-initjob
-        tag: 22.0.1-IF003
-      pull_policy: IfNotPresent
-
     encryption_key_secret: icp4a-shared-encryption-key
 
     sc_content_initialization: true
@@ -170,11 +155,6 @@ spec:
   resource_registry_configuration:
 #    hostname: "rr-{{ shared_configuration.sc_deployment_hostname_suffix }}"
 #    port: 443
-    images:
-      pull_policy: IfNotPresent
-      resource_registry:
-        repository: cp.icr.io/cp/cp4a/aae/dba-etcd
-        tag: 22.0.1-IF003
     admin_secret_name: resource-registry-admin-secret
     replica_size: 3
     probe:
@@ -289,7 +269,7 @@ spec:
 
       replica_count: cp4baReplicaCount
 
-     log:
+      log:
        format: json
 
       resources:
@@ -583,11 +563,6 @@ spec:
   bastudio_configuration:
     hostname: "{{ 'bas-' + shared_configuration.sc_deployment_hostname_suffix }}"
     port: 443
-    images:
-      pull_policy: IfNotPresent
-      bastudio:
-        repository: cp.icr.io/cp/cp4a/bas/bastudio
-        tag: 22.0.1-IF003
 
     admin_secret_name: icp4adeploy-bas-admin-secret
     admin_user:  "cp4baAdminName"
@@ -673,7 +648,7 @@ spec:
       storage_class: "{{ shared_configuration.storage_configuration.sc_fast_file_storage_classname }}"
 
     jms_server:
-     tls:
+      tls:
         tls_secret_name: "{{ meta.name }}-bastudio-jms-tls"
       resources:
         limits:
@@ -694,15 +669,6 @@ spec:
     #  App Engine Playback Server (playback_server) can be only one instance.
     #-----------------------------------------------------------------------
     playback_server:
-      images:
-        pull_policy: IfNotPresent
-        db_job:
-          repository: cp.icr.io/cp/cp4a/aae/solution-server-helmjob-db
-          tag: 22.0.1-IF003
-        solution_server:
-          repository: cp.icr.io/cp/cp4a/aae/solution-server
-          tag: 22.0.1-IF003
-
       hostname: "{{ 'ae-pbk-' + shared_configuration.sc_deployment_hostname_suffix }}"
       port: 443
 
@@ -830,15 +796,6 @@ spec:
   #############################################################################
   application_engine_configuration:
     - name: workspace
-      images:
-        pull_policy: IfNotPresent
-        solution_server:
-          repository: cp.icr.io/cp/cp4a/aae/solution-server
-          tag: 22.0.1-IF003
-        db_job:
-          repository: cp.icr.io/cp/cp4a/aae/solution-server-helmjob-db
-          tag: 22.0.1-IF003
-
       hostname: "{{ 'ae-workspace-' + shared_configuration.sc_deployment_hostname_suffix }}"
       port: 443
 
