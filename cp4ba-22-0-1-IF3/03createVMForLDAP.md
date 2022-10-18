@@ -166,7 +166,7 @@ Please also refer to **https://cloud.ibm.com/docs/virtual-servers?topic=virtual-
 
 **Upload the files onto your VM:**
 
-To upload the files from the bastion host to the VM you can use linux scp command, WinSCP, FileZilla or any software that suppports SFTP protocol
+To upload the files from the bastion host to the VM you can use linux scp command, WinSCP, FileZilla or any software that supports SFTP protocol
 
 SCP command examples:
 
@@ -218,8 +218,8 @@ sds64-linux-x86-64.iso                                                          
 Follow these steps to install SDS:
 
 1. SSH to your VM
-   
-   ```
+
+   ```sh
    ssh <vm-public-ip-address> -l root
    ```
 
@@ -229,22 +229,23 @@ Follow these steps to install SDS:
 
 3. Change into the install directory
 
-   ```
+   ```sh
    cd /root/install
    ```
 
 4. Install prerequisite RPM packages
 
-   ```
+   ```sh
    rpm -ivh ksh-20120801-142.el7.x86_64.rpm
    ```
    
-   ```
+   ```sh
    rpm -ivh libaio-0.3.109-13.el7.x86_64.rpm
    ```
 
    Sample output:
-   ```
+
+   ```sh
    [root@ldap-tech-jam-xxxx ~]# cd /root/install
    [root@ldap-tech-jam-xxxx install]# rpm -ivh ksh-20120801-142.el7.x86_64.rpm
    warning: ksh-20120801-142.el7.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY
@@ -260,29 +261,31 @@ Follow these steps to install SDS:
 
 5. Mount the SDS installation image
 
-   ```
+   ```sh
    mkdir /media/sds
    ```
-   
-   ```
+
+   ```sh
    mount -o loop /root/install/sds64-linux-x86-64.iso /media/sds
    ```
 
    Sample output:
-   ```
+
+   ```sh
    [root@ldap-tech-jam-xxxx install]# mkdir /media/sds
    [root@ldap-tech-jam-xxxx install]# mount -o loop /root/install/sds64-linux-x86-64.iso /media/sds
    mount: /dev/loop0 is write-protected, mounting read-only
    ```
-   
+
 6. Install IBM Installation Manager
 
-   ```
+   ```sh
    /media/sds/ibm_im_64bit/installc -log /root/install/im_install_log.txt -acceptLicense -installationDirectory /opt/IBM/InstallationManager -showProgress
    ```
 
    Sample output:
-   ```
+
+   ```sh
    [root@ldap-tech-jam-xxxx install]# /media/sds/ibm_im_64bit/installc -log /root/install/im_install_log.txt -acceptLicense -installationDirectory /opt/IBM/InstallationManager -showProgress
                     25%                50%                75%                100%
    ------------------|------------------|------------------|------------------|
@@ -292,16 +295,17 @@ Follow these steps to install SDS:
 
 7. Install GSKit
 
-   ```
+   ```sh
    rpm -ivh /media/sds/ibm_gskit/gskcrypt64-8.0.50.34.linux.x86_64.rpm
    ```
    
-   ```
+   ```sh
    rpm -ivh /media/sds/ibm_gskit/gskssl64-8.0.50.34.linux.x86_64.rpm
    ```
 
    Sample output:
-   ```
+
+   ```sh
    [root@ldap-tech-jam-xxxx install]# rpm -ivh /media/sds/ibm_gskit/gskcrypt64-8.0.50.34.linux.x86_64.rpm
    Preparing...                          ################################# [100%]
    Updating / installing...
@@ -311,43 +315,44 @@ Follow these steps to install SDS:
    Updating / installing...
       1:gskssl64-8.0-50.34               ################################# [100%]
    ```
-   
+
 8. Create silent installation response file, copy it to /root/install folder and make it writable
 
-   ```
+   ```sh
    cp /media/sds/SilentInstallScripts/sds_silent_install_response.xml /root/install/sds_silent_install_response.xml
    ```
-   
-   ```
+
+   ```sh
    chmod +w /root/install/sds_silent_install_response.xml
    ```
 
 9. Update certain values in the silent installation response file
 
-   ```
+   ```sh
    sed -i "s|<install_image>|/media/sds|g" /root/install/sds_silent_install_response.xml
    ```
 
-   ```
+   ```sh
    sed -i "s|<DB2_Installation_Path>||g" /root/install/sds_silent_install_response.xml
    ```
 
-   ```
+   ```sh
    sed -i "s|<data key='user.use.existing.gskit,com.ibm.security.directoryserver.v64' value='false'/>|<data key='user.use.existing.gskit,com.ibm.security.directoryserver.v64' value='true'/>|g" /root/install/sds_silent_install_response.xml
    ```
 
-   ```
+   ```sh
    sed -i "s|<data key='user.gskit.executable.path,com.ibm.security.directoryserver.v64' value='/media/sds/ibm_gskit'/>|<data key='user.gskit.executable.path,com.ibm.security.directoryserver.v64' value=''/>|g" /root/install/sds_silent_install_response.xml
    ```
 
 10. Install SDS
 
-    ```
+    ```sh
     /opt/IBM/InstallationManager/eclipse/tools/imcl input /root/install/sds_silent_install_response.xml -acceptLicense -showProgress
     ```
 
     Sample output:
-    ```
+
+    ```sh
     [root@ldap-tech-jam-xxxx install]# /opt/IBM/InstallationManager/eclipse/tools/imcl input /root/install/sds_silent_install_response.xml -acceptLicense -showProgress
                      25%                50%                75%                100%
     ------------------|------------------|------------------|------------------|
@@ -359,7 +364,7 @@ Follow these steps to install SDS:
 
 **General remark:** During the configuration, the scripts will ask for your confirmation like this:
 
-```
+```text
 Do you want to....
  (1) Continue with the above actions, or
  (2) Exit without making any changes:
@@ -367,17 +372,16 @@ Do you want to....
 
 Please answer 1 to continue
 
-
 Follow these steps to configure and start SDS:
 
 1. Create LDAP server instance:
 
-   ```
+   ```sh
    /opt/ibm/ldap/V6.4/sbin/idsicrt -I ldap1 -p 389 -s 636 -e mysecretkey! -G idsldap -w passw0rd
    ```
-   
-   **Note:** Instead of passw0rd you can define your custom password
-   
+
+   **Note:** Instead of `passw0rd` you can define your custom password
+
    **Note:** Note down the LDAP port number, for example 389, and use that while the CP4BA deployment
 
    Parameters:
@@ -389,7 +393,8 @@ Follow these steps to configure and start SDS:
    - -w: ldap instance database user password
 
    Sample output:
-   ```
+
+   ```sh
    [root@ldap-tech-jam-xxxx install]# /opt/ibm/ldap/V6.4/sbin/idsicrt -I ldap1 -p 389 -s 636 -e mysecretkey! -G idsldap -w passw0rd
    GLPWRP123I The program '/opt/ibm/ldap/V6.4/sbin/64/idsadduser' is used with the following arguments '-u ldap1 -g idsldap -w *****'.
 
@@ -483,14 +488,15 @@ Follow these steps to configure and start SDS:
 
 2. Create LDAP administrator and password:
 
-   ```
+   ```sh
    /opt/ibm/ldap/V6.4/sbin/idsdnpw -I ldap1 -u cn=root -p passw0rd
    ```
 
-   **Note:** Instead of passw0rd you can define your custom password for LDAP admin user cn=root - make sure to note it down and use that while the CP4BA deployment
-   
+   **Note:** Instead of `passw0rd` you can define your custom password for LDAP admin user `cn=root` - make sure to note it down and use that while the CP4BA deployment
+
    Sample output:
-   ```
+
+   ```sh
    [root@ldap-tech-jam-xxxx install]# /opt/ibm/ldap/V6.4/sbin/idsdnpw -I ldap1 -u cn=root -p passw0rd
    GLPWRP123I The program '/opt/ibm/ldap/V6.4/sbin/64/idsdnpw' is used with the following arguments '-I ldap1 -u cn=root -p *****'.
    You have chosen to perform the following actions:
@@ -511,11 +517,12 @@ Follow these steps to configure and start SDS:
 
 3. Create database instance for LDAP instance:
 
-   ```
+   ```sh
    /opt/ibm/ldap/V6.4/sbin/idscfgdb -I ldap1 -a ldap1 -t ldap1 -l /home/ldap1 -w passw0rd
    ```
-   **Note:** Instead of passw0rd you can define your custom password
-   
+
+   **Note:** Instead of `passw0rd` you can define your custom password
+
    Parameters:
    - -I: ldap instance name
    - -a: database administrator user
@@ -524,7 +531,8 @@ Follow these steps to configure and start SDS:
    - -w: database administrator password
 
    Sample output:
-   ```
+
+   ```sh
    [root@ldap-tech-jam-xxxx install]# /opt/ibm/ldap/V6.4/sbin/idscfgdb -I ldap1 -a ldap1 -t ldap1 -l /home/ldap1 -w passw0rd
    GLPWRP123I The program '/opt/ibm/ldap/V6.4/sbin/64/idscfgdb' is used with the following arguments '-I ldap1 -a ldap1 -t ldap1 -l /home/ldap1 -w *****'.
    You have chosen to perform the following actions:
@@ -563,12 +571,13 @@ Follow these steps to configure and start SDS:
 
 4. Add suffix `dc=example,dc=com`:
 
-   ```
+   ```sh
    /opt/ibm/ldap/V6.4/sbin/idscfgsuf -I ldap1 -s "dc=example,dc=com"
    ```
 
    Sample output:
-   ```
+
+   ```sh
    [root@ldap-tech-jam-xxxx install]# /opt/ibm/ldap/V6.4/sbin/idscfgsuf -I ldap1 -s "dc=example,dc=com"
    GLPWRP123I The program '/opt/ibm/ldap/V6.4/sbin/64/idscfgsuf' is used with the following arguments '-I ldap1 -s dc=example,dc=com'.
    You have chosen to perform the following actions:
@@ -586,16 +595,17 @@ Follow these steps to configure and start SDS:
 
 5. Import the LDIF files:
 
-   ```
+   ```sh
    /opt/ibm/ldap/V6.4/sbin/ldif2db -i /root/install/cp4ba.ldif -I ldap1
    ```
-   
-   ```
+
+   ```sh
    /opt/ibm/ldap/V6.4/sbin/ldif2db -i /root/install/predefined.ldif -I ldap1
    ```
 
    Sample output:
-   ```
+
+   ```sh
    [root@ldap-tech-jam-xxxx install]# /opt/ibm/ldap/V6.4/sbin/ldif2db -i /root/install/cp4ba.ldif -I ldap1
    GLPCTL113I Largest core file size creation limit for the process (in bytes): '0'(Soft limit) and '-1'(Hard limit).
    GLPCTL119I Maximum Data Segment(Kbytes) soft ulimit for the process is -1 and the prescribed minimum is 262144.
@@ -625,13 +635,14 @@ Follow these steps to configure and start SDS:
    ```
 
 6. Finally, start the LDAP server:
-   
-   ```
+
+   ```sh
    /opt/ibm/ldap/V6.4/sbin/idsslapd -I ldap1
    ```
 
    Sample output:
-   ```
+
+   ```sh
    [root@ldap-tech-jam-xxxx install]# /opt/ibm/ldap/V6.4/sbin/idsslapd -I ldap1
    GLPSRV041I Server starting.
    GLPSRV236W Premium feature activation code could not be loaded. Some features are not available.

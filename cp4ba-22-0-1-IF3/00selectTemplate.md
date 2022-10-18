@@ -6,7 +6,7 @@ This project provides you the following CP4BA templates to select from:
 
 - **[Foundation only](#foundation-only)** (ibm_cp4a_cr_template.001.ent.Foundation.yaml)
 - **[Foundation, Content](#foundation-content)** (ibm_cp4a_cr_template.002.ent.FoundationContent.yaml)
-- **[Foundation, BAW Authoring](#foundation-bawauth)** (ibm_cp4a_cr_template.002.ent.FoundationContent.yaml)
+- **[Foundation, Content, BAW Authoring](#foundation-bawauth)** (ibm_cp4a_cr_template.010.ent.FoundationContentBawauth.yaml)
 
 All these templates are tested on IBM Cloud / ROKS. In addition, you can create your own template if needed.
 

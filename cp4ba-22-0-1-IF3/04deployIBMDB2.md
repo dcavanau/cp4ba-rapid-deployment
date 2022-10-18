@@ -3,42 +3,42 @@
 ![Overview](images/overview04.jpg "Overview")
 
 1. On your bastion host create a new directory for the scripts needed and switch to it
-   
+
    **Note:** As part of this doc, it is assumed that you create new directory `/cp4ba`. If you select a different directory, you have to change some of the commands in this and following steps accordingly, otherwise you can simply copy/paste them.
-   
-   ```
+
+   ```sh
    mkdir /cp4ba
    ```
-   
-   ```
+
+   ```sh
    cd /cp4ba
    ```
-   
+
 2. Clone this git repository onto your bastion host, extract an archive and copy the deployment scripts
-   
+
    **Note:** As part of this doc, it is assumed that you copy the deployment scripts into directory `mycluster`. If you select a different directory, you have to change some of the commands in this and following steps accordingly, otherwise you can simply copy/paste them.
 
-   ```
+   ```sh
    git clone https://github.com/IBM/cp4ba-rapid-deployment
    ```
-   
-   ```
+
+   ```sh
    cd /cp4ba/cp4ba-rapid-deployment/cp4ba-22-0-1-IF3
    ```
-   
-   ```
+
+   ```sh
    unzip scripts/deployment-db2-cp4ba/baca-db/DB2/imports/runtime_page.del.001.lob.zip -d scripts/deployment-db2-cp4ba/baca-db/DB2/imports
    ```
-   
-   ```
+
+   ```sh
    cp -r scripts mycluster
    ```
-   
-   ```
+
+   ```sh
    cd mycluster/deployment-db2-cp4ba
    ```
-   
-3. Optional: Dependent on the CP4BA template selected in **[Step 0: Select the CP4BA template for deployment](00selectTemplate.md)**, get a DB2 Standard Edition license key to enable containerized DB2 to use more CPUs and RAM compared to the Community Edition
+
+3. **Optional:** Dependent on the CP4BA template selected in **[Step 0: Select the CP4BA template for deployment](00selectTemplate.md)**, get a DB2 Standard Edition license key to enable containerized DB2 to use more CPUs and RAM compared to the Community Edition
    
    **Note:** In case you don't have access to a DB2 Standard Edition license key, you can install DB2 with the Community Edition license that is included by default. But, this might result in issues when deploying some of the provided CP4BA templates later on, as it might happen that the CPE Object Stores can't be automatically initialized while the deployment as the DB connections might not be able to be created. In that case, scale down the operator to zero after the Object Store initialization failed and create the missing DB connections manually. Then, scale up the operator to one and it will successfully initialize the Object Stores.
    
