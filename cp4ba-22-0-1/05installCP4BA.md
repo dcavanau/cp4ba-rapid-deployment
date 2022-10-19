@@ -2,9 +2,9 @@
 
 ![Overview](images/overview05.jpg "Overview")
 
-1. Onto your bastion host, download the Case package: **<https://github.com/IBM/cloud-pak/raw/master/repo/case/ibm-cp-automation-4.0.1.tgz>** into a temporary directory, e.g., `/temp`, and extract `ibm-cp-automation-4.0.1.tar` into the same temporary directory, e.g., `/temp`
+1. Onto your bastion host, download the Case package: **<https://github.com/IBM/cloud-pak/raw/master/repo/case/ibm-cp-automation-4.0.1.tgz>** into a temporary directory, e.g., `/temp`, and extract `ibm-cp-automation-4.0.0.tar` into the same temporary directory, e.g., `/temp`
 
-2. Extract the content of `ibm-cp-automation-4.0.1.tar` into the same temporary directory, e.g., `/temp`
+2. Extract the content of `ibm-cp-automation-4.0.0.tar` into the same temporary directory, e.g., `/temp`
 
 3. Extract the content of archive `/temp/ibm-cp-automation/inventory/cp4aOperatorSdk/files/deploy/crs/cert-k8s-22.0.1.tar` into directory `/cp4ba`
 
@@ -22,112 +22,6 @@
    cp: overwrite ‘cp4ba/cert-kubernetes/descriptors/cp4a-gold-storage-class.yaml’? y
    cp: overwrite ‘cp4ba/cert-kubernetes/descriptors/cp4a-silver-storage-class.yaml’? y
    ```
-
-5. Apply the catalog sources to pin to the specified versions for IBM Automation Foundation, IBM Foundational Services with Cloud Pak for Business Automation. You can apply the catalog sources below from a command line by creating a YAML file (for example, cp4ba_catalog_sources.yaml) with the catalog sources below and performing `oc apply -f cp4ba_catalog_sources.yaml`, or you can apply the catalog sources using the OCP console
-
-    ***Note:*** you can apply only one catalog source at a time using the OCP console.
-
-    ***Note:*** The DB2, IBM Business Team Service, and Postgres catalog sources are dependent components of Cloud Pak for Business Automation.
-
-    ```yaml
-    # CP4BA 22.0.1 IF001 catalog
-    apiVersion: operators.coreos.com/v1alpha1
-    kind: CatalogSource
-    metadata:
-  name: ibm-cp4a-operator-catalog
-  namespace: openshift-marketplace
-    spec:
-      displayName: ibm-cp4a-operator
-      publisher: IBM
-      sourceType: grpc
-      image: icr.io/cpopen/ibm-cp-automation-catalog@sha256:e595868ec426bfba2409878b86fa3398a0680b5c725cff212469068ce8824202
-      updateStrategy:
-        registryPoll:
-          interval: 45m
-    ---
-    # IBM Automation Foundation Base 1.3.7
-    apiVersion: operators.coreos.com/v1alpha1
-    kind: CatalogSource
-    metadata:
-      name: ibm-cp-automation-foundation-catalog
-      namespace: openshift-marketplace
-    spec:
-      displayName: IBM Automation Foundation Operators
-      publisher: IBM
-      sourceType: grpc
-      image: icr.io/cpopen/ibm-cp-automation-foundation-catalog@sha256:267bbc17bad1966be259bb9a6951c520c6fb824bfa42bbec22570ba49883d4ae
-  updateStrategy:
-    registryPoll:
-      interval: 45m
-    ---
-    # IBM Automation Foundation Core 1.3.7
-    apiVersion: operators.coreos.com/v1alpha1
-    kind: CatalogSource
-    metadata:
-      name: ibm-automation-foundation-core-catalog
-      namespace: openshift-marketplace
-    spec:
-      displayName: IBM Automation Foundation Core Operators
-      publisher: IBM
-      sourceType: grpc
-      image: icr.io/cpopen/ibm-automation-foundation-core-catalog@sha256:5502c003afe7a0590ce123c3bbbd76e46374af641b3a210e3c25cfe2381e4647
-      updateStrategy:
-        registryPoll:
-          interval: 45m
-    ---
-    # IBM Cloud Foundational Services 3.19.0
-    apiVersion: operators.coreos.com/v1alpha1
-    kind: CatalogSource
-    metadata:
-      annotations:
-        bedrock_catalogsource_priority: '1'
-      name: opencloud-operators
-      namespace: openshift-marketplace
-    spec:
-      displayName: IBMCS Operators
-      publisher: IBM
-      sourceType: grpc
-      image: icr.io/cpopen/ibm-common-service-catalog@sha256:87904dee339ee4bbcbdc07949abc8df82bf6d85706f90795e6dae5e45f876b19
-      updateStrategy:
-        registryPoll:
-          interval: 45m
-      priority: 100
-    ---
-    # IBM Business Teams Service version 3.19.0
-    apiVersion: operators.coreos.com/v1alpha1
-    kind: CatalogSource
-    metadata:
-      annotations:
-        bedrock_catalogsource_priority: '1'
-      name: bts-operator
-      namespace: openshift-marketplace
-    spec:
-      displayName: BTS Operator
-      publisher: IBM
-      sourceType: grpc
-      image: icr.io/cpopen/ibm-bts-operator-catalog@sha256:68596113ad291b36b78d53207f73b53691f9f0154a21f38c717c08a0100deb9f
-      updateStrategy:
-        registryPoll:
-          interval: 45m
-    ---
-    # Cloud Native PostgresSQL 4.0.8
-    apiVersion: operators.coreos.com/v1alpha1
-    kind: CatalogSource
-    metadata:
-      annotations:
-        bedrock_catalogsource_priority: '1'
-      name: cloud-native-postgresql-catalog
-      namespace: openshift-marketplace
-    spec:
-      displayName: Cloud Native Postgresql Catalog
-      publisher: IBM
-      sourceType: grpc
-      image: icr.io/cpopen/ibm-cpd-cloud-native-postgresql-operator-catalog@sha256:f3feb39b0dfb444a46d99a9cd160c616f8548d84d452cbc89e4985f0a2574486
-      updateStrategy:
-        registryPoll:
-          interval: 45m
-      priority: 100
-    ```
 
 5. From cert-kubernetes, execute script **cp4a-clusteradmin-setup.sh**
 
@@ -270,7 +164,7 @@
 
    First you should see that the two persistent volume claims are get bound. Then the deployment of the 9 operators can be seen, and last but not least, the 9 pods implementing those operators should be getting deployed and running.
 
-6. Wait untill all Operators are installed, this might take a while (you need to see e.g. 9 pods in \<your-ibm-cp4ba-project\>, 12 pods in ibm-common-services project, all Running and Ready 1/1)
+6. Wait until all Operators are installed, this might take a while (you need to see e.g. 9 pods in \<your-ibm-cp4ba-project\>, 12 pods in ibm-common-services project, all Running and Ready 1/1)
 
    **Note:** The number of pods can vary based on when you install and what version of the Operators is installed. Important is that all are Running and Ready.
 

@@ -23,7 +23,7 @@
    ```
    
    ```
-   cd /cp4ba/cp4ba-rapid-deployment/cp4ba-22-0-1-IF1
+   cd /cp4ba/cp4ba-rapid-deployment/cp4ba-22-0-1
    ```
    
    ```
