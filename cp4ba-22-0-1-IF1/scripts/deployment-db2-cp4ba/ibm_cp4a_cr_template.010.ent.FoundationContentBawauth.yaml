@@ -58,19 +58,7 @@ spec:
     sc_run_as_user:
 
     images:
-      keytool_job_container:
-        repository: cp.icr.io/cp/cp4a/ums/dba-keytool-jobcontainer
-        tag: 22.0.1-IF001
-      dbcompatibility_init_container:
-        repository: cp.icr.io/cp/cp4a/aae/dba-dbcompatibility-initcontainer
-        tag: 22.0.1-IF001
-      keytool_init_container:
-        repository: cp.icr.io/cp/cp4a/ums/dba-keytool-initcontainer
-        tag: 22.0.1-IF001
-      umsregistration_initjob:
-        repository: cp.icr.io/cp/cp4a/aae/dba-umsregistration-initjob
-        tag: 22.0.1-IF001
-      pull_policy: IfNotPresent
+      pull_policy: Always
 
     encryption_key_secret: icp4a-shared-encryption-key
 
@@ -160,10 +148,7 @@ spec:
 #    hostname: "rr-{{ shared_configuration.sc_deployment_hostname_suffix }}"
 #    port: 443
     images:
-      pull_policy: IfNotPresent
-      resource_registry:
-        repository: cp.icr.io/cp/cp4a/aae/dba-etcd
-        tag: 22.0.1-IF001
+      pull_policy: Always
     admin_secret_name: resource-registry-admin-secret
     replica_size: 3
     probe:
@@ -210,9 +195,7 @@ spec:
     replica_count: cp4baReplicaCount
 
     image:
-      repository: cp.icr.io/cp/cp4a/ban/navigator-sso
-      tag: ga-3011-icn-IF001
-      pull_policy: IfNotPresent
+      pull_policy: Always
 
     log:
       format: json
@@ -284,9 +267,7 @@ spec:
       replica_count: cp4baReplicaCount
 
       image:
-        repository: cp.icr.io/cp/cp4a/fncm/cpe
-        tag: ga-558-p8cpe-la005
-        pull_policy: IfNotPresent
+        pull_policy: Always
 
       log:
        format: json
@@ -353,9 +334,7 @@ spec:
       replica_count: 1
 
       image:
-        repository: cp.icr.io/cp/cp4a/fncm/css
-        tag: ga-558-p8css-la005
-        pull_policy: IfNotPresent
+        pull_policy: Always
 
       log:
         format: json
@@ -405,9 +384,7 @@ spec:
       replica_count: cp4baReplicaCount
 
       image:
-        repository: cp.icr.io/cp/cp4a/fncm/cmis
-        tag: ga-306-cmis-la104
-        pull_policy: IfNotPresent
+        pull_policy: Always
 
       log:
         format: json
@@ -482,9 +459,7 @@ spec:
       replica_count: cp4baReplicaCount
 
       image:
-        repository: cp.icr.io/cp/cp4a/fncm/graphql
-        tag: ga-558-p8cgql-la005
-        pull_policy: IfNotPresent
+        pull_policy: Always
 
       log:
         format: json
@@ -598,10 +573,7 @@ spec:
     hostname: "{{ 'bas-' + shared_configuration.sc_deployment_hostname_suffix }}"
     port: 443
     images:
-      pull_policy: IfNotPresent
-      bastudio:
-        repository: cp.icr.io/cp/cp4a/bas/bastudio
-        tag: 22.0.1-IF001
+      pull_policy: Always
 
     admin_secret_name: icp4adeploy-bas-admin-secret
     admin_user:  "cp4baAdminName"
@@ -688,9 +660,7 @@ spec:
 
     jms_server:
       image:
-        repository: cp.icr.io/cp/cp4a/bas/jms
-        tag: 22.0.1-IF001
-        pull_policy: IfNotPresent
+       pull_policy: Always
       tls:
         tls_secret_name: "{{ meta.name }}-bastudio-jms-tls"
       resources:
@@ -713,13 +683,7 @@ spec:
     #-----------------------------------------------------------------------
     playback_server:
       images:
-        pull_policy: IfNotPresent
-        db_job:
-          repository: cp.icr.io/cp/cp4a/aae/solution-server-helmjob-db
-          tag: 22.0.1-IF001
-        solution_server:
-          repository: cp.icr.io/cp/cp4a/aae/solution-server
-          tag: 22.0.1-IF001
+        pull_policy: Always
 
       hostname: "{{ 'ae-pbk-' + shared_configuration.sc_deployment_hostname_suffix }}"
       port: 443
@@ -849,13 +813,7 @@ spec:
   application_engine_configuration:
     - name: workspace
       images:
-        pull_policy: IfNotPresent
-        solution_server:
-          repository: cp.icr.io/cp/cp4a/aae/solution-server
-          tag: 22.0.1-IF001
-        db_job:
-          repository: cp.icr.io/cp/cp4a/aae/solution-server-helmjob-db
-          tag: 22.0.1-IF001
+        pull_policy: Always
 
       hostname: "{{ 'ae-workspace-' + shared_configuration.sc_deployment_hostname_suffix }}"
       port: 443
@@ -1007,29 +965,19 @@ spec:
 #      tls_trust_store: 
 
     image:
-      repository: cp.icr.io/cp/cp4a/bas/workflow-authoring
-      tag: 22.0.1-IF001
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
 
     pfs_bpd_database_init_job:
-      repository: cp.icr.io/cp/cp4a/baw/pfs-bpd-database-init-prod
-      tag: 22.0.1-IF001
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
 
     upgrade_job:
-      repository: cp.icr.io/cp/cp4a/baw/workflow-server-dbhandling
-      tag: 22.0.1-IF001
-      pullPolicy: IfNotPresent
+      pullPolicy: always
 
     bas_auto_import_job:
-      repository: cp.icr.io/cp/cp4a/baw/toolkit-installer
-      tag: 22.0.1-IF001
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
 
     ibm_workplace_job:
-      repository: cp.icr.io/cp/cp4a/baw/iaws-ibm-workplace
-      tag: 22.0.1-IF001
-      pull_policy: IfNotPresent
+      pull_policy: Always
 
     database:
       enable_ssl: false
@@ -1050,9 +998,7 @@ spec:
 
     content_integration:
       init_job_image:
-        repository: cp.icr.io/cp/cp4a/baw/iaws-ps-content-integration
-        tag: 22.0.1-IF001
-        pull_policy: IfNotPresent
+        pull_policy: Always
 
       domain_name: "CP4BADOM"
       object_store_name: "db2BawDocsName"
@@ -1060,9 +1006,7 @@ spec:
 
     case:
       init_job_image:
-        repository: cp.icr.io/cp/cp4a/baw/workflow-server-case-initialization
-        tag: 22.0.1-IF001
-        pull_policy: IfNotPresent
+        pull_policy: Always
 
       domain_name: "CP4BADOM"
       object_store_name_dos: "db2BawDosName"
@@ -1099,9 +1043,7 @@ spec:
 
     jms:
       image:
-        repository: cp.icr.io/cp/cp4a/baw/jms
-        tag: 22.0.1-IF001
-        pull_policy: IfNotPresent
+        pull_policy: Always
 #      tls:
 #        tls_secret_name: ibm-jms-tls-secret - we don't have this secret yet
       resources:
@@ -1215,9 +1157,7 @@ spec:
     service_type: Route
 
     image:
-      repository: cp.icr.io/cp/cp4a/baw/pfs-prod
-      tag: "22.0.1-IF001"
-      pull_policy: IfNotPresent
+      pull_policy: Always
 
     replicas: cp4baReplicaCount
 

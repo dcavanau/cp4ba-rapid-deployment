@@ -945,26 +945,6 @@ spec:
 #      tls_trust_list: 
 #      tls_trust_store: 
 
-    pfs_bpd_database_init_job:
-      repository: cp.icr.io/cp/cp4a/baw/pfs-bpd-database-init-prod
-      tag: 22.0.1-IF003
-      pullPolicy: IfNotPresent
-
-    upgrade_job:
-      repository: cp.icr.io/cp/cp4a/baw/workflow-server-dbhandling
-      tag: 22.0.1-IF003
-      pullPolicy: IfNotPresent
-
-    bas_auto_import_job:
-      repository: cp.icr.io/cp/cp4a/baw/toolkit-installer
-      tag: 22.0.1-IF003
-      pullPolicy: IfNotPresent
-
-    ibm_workplace_job:
-      repository: cp.icr.io/cp/cp4a/baw/iaws-ibm-workplace
-      tag: 22.0.1-IF003
-      pull_policy: IfNotPresent
-
     database:
       enable_ssl: false
       db_cert_secret_name:

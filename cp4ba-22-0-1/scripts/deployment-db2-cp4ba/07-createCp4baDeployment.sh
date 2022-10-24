@@ -286,7 +286,7 @@ echo "Creating secret ibm-entitlement-key in project $cp4baProjectName..."
 # oc project ibm-common-services
 oc project $cp4baProjectName
 oc create secret docker-registry ibm-entitlement-key --docker-server=${DOCKER_REG_SERVER} --docker-username=${DOCKER_REG_USER} --docker-password=${ENTITLEMENTKEY} --docker-email=${EMAIL} --namespace=$cp4baProjectName
-oc project $cp4baProjectName
+#oc project $cp4baProjectName
 echo "Done."
 
 echo
