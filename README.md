@@ -16,6 +16,7 @@ Scripts are available for the following CP4BA versions:
 - **[CP4BA v21.0.3 IF005 (March 2022)](cp4ba-21-0-3)**
 - **[CP4BA v21.0.2 (June 2021)](cp4ba-21-0-2)**
 - **[CP4BA v21.0.1 (March 2021)](cp4ba-21-0-1)**
+- **[CP4BA v20.0.3 ](cp4ba-20-0-3)**
 
 Issues or questions? IBMers can use this IBM internal Slack channel: **#dba-swat-asset-qna** (**https://ibm-cloud.slack.com/archives/C026TD1SGCA**)
 
