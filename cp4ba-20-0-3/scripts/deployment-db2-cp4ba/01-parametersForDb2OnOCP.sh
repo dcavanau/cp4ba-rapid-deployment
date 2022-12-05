@@ -58,26 +58,19 @@ db2Memory=16Gi
 # --- If changes are needed here, provide those BEFORE running script 02-createDb2OnOCP.sh ---
 
 # Version of DB2 operator to install. Change only when a new operator version should be used.
-db2OperatorVersion=db2u-operator.v1.1.9
+db2OperatorVersion=db2u-operator.v1.1.3
 
-# Channel version for Operator updates. Change only if a new DB2 operator version requires a new channel version.
+# Channel version for Operator updates. For swat-dev-01 use v1.0 otherwise leave as specified. 
+# Change only if a new DB2 operator version requires a new channel version.
 db2OperatorChannel=v1.1
 
-# DB2 instance version to be created. Change only when a new version of DB2 should be used.  
+# DB2 instance version to be created.   For swat-dev-01 use 11.5.5.0-cn4 otherwise leave as specified.
+# Change only when a new version of DB2 should be used.  
 # This version of DB2 must be supported by the Operator version installed as specified above.
 db2InstanceVersion=11.5.6.0
 
 # Indicate if to install DB2 containerized on the OpenShift cluster (true/false)
 db2UseOnOcp=true
-
-# DB2 instance access information.
-# This uses the DB2 nodeport service name to access DB2
-db2HostName=c-db2ucluster-db2u-engn-svc.${db2OnOcpProjectName}.svc
-
-# If the service name is used, the port is 5000 and does not need to be changed
-# If using IP address or a HAProxy to access the node port, the port number
-# would need to change.
-db2PortNumber=50000
 
 # IP for DB2 instance access information.  If IP must be specified use otherwise leave as specified
 db2HostIp=$db2HostName
@@ -92,18 +85,11 @@ cp4baDeploymentPlatform=ROKS
 db2OnOcpStorageClassName=cp4a-file-delete-gold-gid
 
 # Size of the PVC for DB2 (on ROKS: the larger the faster, good performance with 500Gi)
-db2StorageSize=150Gi
-
-# Database activation delay. Scripts will wait this time in seconds between activating databases.
-# With problems on activation, or if on slow environments, try to increase this delay
-db2ActivationDelay=15
-
-# Number of DBs that should be supported by the DB instance
-db2NumOfDBsSupported=30
+db2StorageSize=500Gi
 
 # CP4BA Database Name information
+db2UmsdbName=UMSDB
 db2IcndbName=ICNDB
-db2ClosName=CLOS
 db2Devos1Name=DEVOS1
 db2AeosName=AEOS
 db2BawDocsName=BAWDOCS
@@ -115,37 +101,4 @@ db2AedbName=AEDB
 db2BasdbName=BASDB
 db2GcddbName=GCDDB
 
-# Indicate if you want to deploy ADP, if so provide the ADP Database Name information
-
-# ADP Configuration
-# By default our configuration creates ADP databases on the same database instance as the rest of the cloudpak
-# here we give you the opportunity to configure it differently so that you can create a separate database instance just for ADP
-# and get our templates to use those values instead
-
-# Flag indicating that ADP should be configured
-db2CreateAdpDbs=false
-
-# DB2 settings for ADP databases, by default same as the rest of the other components
-# Only overwrite if ADP will use a separate DB2 instance
-adpDb2OnOcpProjectName=$db2OnOcpProjectName
-adpDb2AdminUserName=$db2AdminUserName
-adpDb2AdminUserPassword=$db2AdminUserPassword
-adpDb2Cpu=$db2Cpu
-adpDb2Memory=$db2Memory
-adpDb2NumOfDBsSupported=$db2NumOfDBsSupported
-adpDb2StorageSize=$db2StorageSize
-adpDb2OnOcpStorageClassName=$db2OnOcpStorageClassName
-adpDb2PortNumber=$db2PortNumber
-adpDb2HostName=$db2HostName
-
-
-# Name of the base Content Analizer database for ADP
-db2CaBasedbName=BASECA
-# All tenant DBs will be created using this prexi
-db2TenantDBPrefix=PDB
-numberTenantDBs=6
-
 # --- end of file ---
-
-
-
