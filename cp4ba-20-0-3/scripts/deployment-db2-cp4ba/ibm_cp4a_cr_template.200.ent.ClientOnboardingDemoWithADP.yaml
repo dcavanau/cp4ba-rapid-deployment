@@ -21,7 +21,7 @@ metadata:
     release: 20.0.3
 
 spec:
-  appVersion: 20.0.3
+  appVersion: 20.0.3.2
   ibm_license: accept
 
   ##################################################################
